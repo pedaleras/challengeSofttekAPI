@@ -3,6 +3,7 @@ package br.com.fiap.challengeSofttekAPI.controller;
 import br.com.fiap.challengeSofttekAPI.dto.HumorRequestDTO;
 import br.com.fiap.challengeSofttekAPI.dto.HumorResponseDTO;
 import br.com.fiap.challengeSofttekAPI.service.HumorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class HumorController {
     private HumorService service;
 
     @PostMapping
-    public ResponseEntity<HumorResponseDTO> criar(@RequestBody HumorRequestDTO dto) {
+    public ResponseEntity<HumorResponseDTO> criar(@RequestBody @Valid HumorRequestDTO dto) {
         return ResponseEntity.ok(service.salvar(dto));
     }
 
@@ -34,7 +35,7 @@ public class HumorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<HumorResponseDTO> atualizar(@PathVariable Long id, @RequestBody HumorRequestDTO dto) {
+    public ResponseEntity<HumorResponseDTO> atualizar(@PathVariable Long id, @RequestBody @Valid HumorRequestDTO dto) {
         Optional<HumorResponseDTO> atualizado = service.atualizar(id, dto);
         return atualizado.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }

@@ -19,7 +19,7 @@ public class AvaliacaoRiscos {
     private Long id;
 
     @Column(name = "data_avaliacao", nullable = false)
-    private LocalDateTime dataAvaliacao;
+    private LocalDateTime dataAvaliacao = LocalDateTime.now();
 
     @Column(name = "media_percentual", nullable = false)
     private Double mediaPercentual;
@@ -27,9 +27,20 @@ public class AvaliacaoRiscos {
     @Column(name = "categoria_final", nullable = false)
     private String categoriaFinal;
 
-    public AvaliacaoRiscos(Double mediaPercentual, String categoriaFinal) {
+    public AvaliacaoRiscos(Double mediaPercentual) {
         this.dataAvaliacao = LocalDateTime.now();
+        this.setMediaPercentual(mediaPercentual);
+    }
+
+    public void setMediaPercentual(Double mediaPercentual) {
         this.mediaPercentual = mediaPercentual;
-        this.categoriaFinal = categoriaFinal;
+        this.categoriaFinal = calcularCategoriaFinal(mediaPercentual);
+    }
+
+    private String calcularCategoriaFinal(Double mediaPercentual) {
+        if (mediaPercentual <= 25) return "Neutro";
+        if (mediaPercentual <= 50) return "Leve";
+        if (mediaPercentual <= 75) return "Moderado";
+        return "Agudo";
     }
 }

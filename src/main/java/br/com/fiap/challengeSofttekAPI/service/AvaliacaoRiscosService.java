@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.invoke.LambdaConversionException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +25,7 @@ public class AvaliacaoRiscosService {
 
     @Transactional
     public AvaliacaoRiscosResponseDTO salvar(AvaliacaoRiscosRequestDTO dto) {
-        AvaliacaoRiscos avaliacao = new AvaliacaoRiscos(dto.mediaPercentual(), dto.categoriaFinal());
+        AvaliacaoRiscos avaliacao = new AvaliacaoRiscos(dto.mediaPercentual());
 
         AvaliacaoRiscos salvo = repository.save(avaliacao);
         return new AvaliacaoRiscosResponseDTO(salvo);
@@ -48,7 +46,6 @@ public class AvaliacaoRiscosService {
         return repository.findById(id).map(avaliacao -> {
             avaliacao.setDataAvaliacao(LocalDateTime.now());
             avaliacao.setMediaPercentual(dto.mediaPercentual());
-            avaliacao.setCategoriaFinal(dto.categoriaFinal());
 
             AvaliacaoRiscos atualizado = repository.save(avaliacao);
             return new AvaliacaoRiscosResponseDTO(atualizado);

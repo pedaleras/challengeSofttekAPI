@@ -1,0 +1,152 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-05-21T23:00:00.000Z",
+  "__export_source": "chatgpt-generated",
+  "resources": [
+    {
+      "_id": "req_1",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Cadastrar Humor",
+      "method": "POST",
+      "url": "http://localhost:8080/humores",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nivel\": 3\n}"
+      }
+    },
+    {
+      "_id": "req_2",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Listar Humores",
+      "method": "GET",
+      "url": "http://localhost:8080/humores"
+    },
+    {
+      "_id": "req_3",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Buscar Humor por ID",
+      "method": "GET",
+      "url": "http://localhost:8080/humores/1"
+    },
+    {
+      "_id": "req_4",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Atualizar Humor",
+      "method": "PUT",
+      "url": "http://localhost:8080/humores/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nivel\": 4\n}"
+      }
+    },
+    {
+      "_id": "req_5",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Deletar Humor",
+      "method": "DELETE",
+      "url": "http://localhost:8080/humores/1"
+    },
+    {
+      "_id": "req_6",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Cadastrar Avaliação de Riscos",
+      "method": "POST",
+      "url": "http://localhost:8080/avaliacoes-riscos",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"estresse\": 2,\n  \"ansiedade\": 4,\n  \"depressao\": 3\n}"
+      }
+    },
+    {
+      "_id": "req_7",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Listar Avaliações de Riscos",
+      "method": "GET",
+      "url": "http://localhost:8080/avaliacoes-riscos"
+    },
+    {
+      "_id": "req_8",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Buscar Avaliação de Riscos por ID",
+      "method": "GET",
+      "url": "http://localhost:8080/avaliacoes-riscos/1"
+    },
+    {
+      "_id": "req_9",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Atualizar Avaliação de Riscos",
+      "method": "PUT",
+      "url": "http://localhost:8080/avaliacoes-riscos/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"estresse\": 1,\n  \"ansiedade\": 2,\n  \"depressao\": 2\n}"
+      }
+    },
+    {
+      "_id": "req_10",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Deletar Avaliação de Riscos",
+      "method": "DELETE",
+      "url": "http://localhost:8080/avaliacoes-riscos/1"
+    },
+    {
+      "_id": "req_11",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Cadastrar Apoio Utilizado",
+      "method": "POST",
+      "url": "http://localhost:8080/apoios-utilizados",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"descricao\": \"Conversei com um amigo\"\n}"
+      }
+    },
+    {
+      "_id": "req_12",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Listar Apoios Utilizados",
+      "method": "GET",
+      "url": "http://localhost:8080/apoios-utilizados"
+    },
+    {
+      "_id": "req_13",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Buscar Apoio Utilizado por ID",
+      "method": "GET",
+      "url": "http://localhost:8080/apoios-utilizados/1"
+    },
+    {
+      "_id": "req_14",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Atualizar Apoio Utilizado",
+      "method": "PUT",
+      "url": "http://localhost:8080/apoios-utilizados/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"descricao\": \"Falei com a psicóloga\"\n}"
+      }
+    },
+    {
+      "_id": "req_15",
+      "_type": "request",
+      "parentId": "__WORKSPACE_ID__",
+      "name": "Deletar Apoio Utilizado",
+      "method": "DELETE",
+      "url": "http://localhost:8080/apoios-utilizados/1"
+    }
+  ]
+}

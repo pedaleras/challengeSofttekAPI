@@ -3,6 +3,7 @@ package br.com.fiap.challengeSofttekAPI.controller;
 import br.com.fiap.challengeSofttekAPI.dto.AvaliacaoRiscosRequestDTO;
 import br.com.fiap.challengeSofttekAPI.dto.AvaliacaoRiscosResponseDTO;
 import br.com.fiap.challengeSofttekAPI.service.AvaliacaoRiscosService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class AvaliacaoRiscosController {
     private AvaliacaoRiscosService service;
 
     @PostMapping
-    public ResponseEntity<AvaliacaoRiscosResponseDTO> criar(@RequestBody AvaliacaoRiscosRequestDTO dto) {
+    public ResponseEntity<AvaliacaoRiscosResponseDTO> criar(@RequestBody @Valid AvaliacaoRiscosRequestDTO dto) {
         return ResponseEntity.ok(service.salvar(dto));
     }
 
@@ -33,7 +34,7 @@ public class AvaliacaoRiscosController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AvaliacaoRiscosResponseDTO> atualizar(@PathVariable Long id, @RequestBody AvaliacaoRiscosRequestDTO dto) {
+    public ResponseEntity<AvaliacaoRiscosResponseDTO> atualizar(@PathVariable Long id, @RequestBody @Valid AvaliacaoRiscosRequestDTO dto) {
         Optional<AvaliacaoRiscosResponseDTO> atualizado = service.atualizar(id, dto);
         return atualizado.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
