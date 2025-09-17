@@ -31,13 +31,13 @@ public class ApoioUtilizadoService {
                 .collect(Collectors.toList());
     }
 
-    public ApoioUtilizadoResponseDTO buscarPorId(Long id) {
+    public ApoioUtilizadoResponseDTO buscarPorId(String id) {
         ApoioUtilizado apoio = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Apoio não encontrado"));
         return new ApoioUtilizadoResponseDTO(apoio);
     }
 
-    public ApoioUtilizadoResponseDTO atualizar(Long id, ApoioUtilizadoRequestDTO dto) {
+    public ApoioUtilizadoResponseDTO atualizar(String id, ApoioUtilizadoRequestDTO dto) {
         ApoioUtilizado apoio = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Apoio não encontrado"));
 
@@ -49,7 +49,7 @@ public class ApoioUtilizadoService {
         return new ApoioUtilizadoResponseDTO(atualizado);
     }
 
-    public void deletar(Long id) {
+    public void deletar(String id) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("Apoio não encontrado");
         }

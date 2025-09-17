@@ -29,19 +29,19 @@ public class HumorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HumorResponseDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<HumorResponseDTO> buscarPorId(@PathVariable String id) {
         Optional<HumorResponseDTO> dto = service.buscarPorId(id);
         return dto.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<HumorResponseDTO> atualizar(@PathVariable Long id, @RequestBody @Valid HumorRequestDTO dto) {
+    public ResponseEntity<HumorResponseDTO> atualizar(@PathVariable String id, @RequestBody @Valid HumorRequestDTO dto) {
         Optional<HumorResponseDTO> atualizado = service.atualizar(id, dto);
         return atualizado.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable String id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }

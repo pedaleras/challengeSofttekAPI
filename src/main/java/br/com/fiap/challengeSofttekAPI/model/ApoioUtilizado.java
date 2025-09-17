@@ -1,13 +1,13 @@
 package br.com.fiap.challengeSofttekAPI.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id; // Importar do Spring Data
+import org.springframework.data.mongodb.core.mapping.Document; // Importar do Spring Data MongoDB
+import org.springframework.data.mongodb.core.mapping.Field; // Opcional: para customizar nome do campo no Mongo
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "apoio_utilizado")
+@Document(collection = "apoios_utilizados") // Mapeia para a coleção "apoios_utilizados" no MongoDB
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,23 +16,21 @@ import java.time.LocalDateTime;
 public class ApoioUtilizado {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "data_registro", nullable = false)
+    // @Field é opcional, mas pode ser usado para dar um nome explícito no MongoDB
+
+    @Field("data_registro")
     private LocalDateTime dataRegistro;
 
-    @Column(name = "tipo_apoio", nullable = false)
+    @Field("tipo_apoio")
     private String tipoApoio;
 
-    @Column(name = "descricao")
     private String descricao;
 
-
-    public ApoioUtilizado(String tipoApoio,String descricao){
+    public ApoioUtilizado(String tipoApoio, String descricao){
         this.dataRegistro = LocalDateTime.now();
         this.tipoApoio = tipoApoio;
         this.descricao = descricao;
     }
 }
-

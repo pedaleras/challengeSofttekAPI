@@ -28,19 +28,19 @@ public class AvaliacaoRiscosController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AvaliacaoRiscosResponseDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<AvaliacaoRiscosResponseDTO> buscarPorId(@PathVariable String id) {
         Optional<AvaliacaoRiscosResponseDTO> dto = service.buscarPorId(id);
         return dto.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AvaliacaoRiscosResponseDTO> atualizar(@PathVariable Long id, @RequestBody @Valid AvaliacaoRiscosRequestDTO dto) {
+    public ResponseEntity<AvaliacaoRiscosResponseDTO> atualizar(@PathVariable String id, @RequestBody @Valid AvaliacaoRiscosRequestDTO dto) {
         Optional<AvaliacaoRiscosResponseDTO> atualizado = service.atualizar(id, dto);
         return atualizado.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable String id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }

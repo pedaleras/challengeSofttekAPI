@@ -26,17 +26,17 @@ public class ApoioUtilizadoController {
     }
 
     @GetMapping("/{id}")
-    public ApoioUtilizadoResponseDTO buscarPorId(@PathVariable Long id) {
+    public ApoioUtilizadoResponseDTO buscarPorId(@PathVariable String id) {
         return service.buscarPorId(id);
     }
 
     @PutMapping("/{id}")
-    public ApoioUtilizadoResponseDTO atualizar(@PathVariable Long id, @RequestBody ApoioUtilizadoRequestDTO dto) {
+    public ApoioUtilizadoResponseDTO atualizar(@PathVariable String id, @RequestBody ApoioUtilizadoRequestDTO dto) {
         return service.atualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable String id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }

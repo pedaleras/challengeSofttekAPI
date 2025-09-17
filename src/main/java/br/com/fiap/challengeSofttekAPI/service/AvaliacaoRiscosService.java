@@ -37,12 +37,12 @@ public class AvaliacaoRiscosService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<AvaliacaoRiscosResponseDTO> buscarPorId(Long id) {
+    public Optional<AvaliacaoRiscosResponseDTO> buscarPorId(String id) {
         return repository.findById(id).map(AvaliacaoRiscosResponseDTO::new);
     }
 
     @Transactional
-    public Optional<AvaliacaoRiscosResponseDTO> atualizar(Long id, AvaliacaoRiscosRequestDTO dto) {
+    public Optional<AvaliacaoRiscosResponseDTO> atualizar(String id, AvaliacaoRiscosRequestDTO dto) {
         return repository.findById(id).map(avaliacao -> {
             avaliacao.setDataAvaliacao(LocalDateTime.now());
             avaliacao.setMediaPercentual(dto.mediaPercentual());
@@ -53,7 +53,7 @@ public class AvaliacaoRiscosService {
     }
 
     @Transactional
-    public boolean deletar(Long id) {
+    public boolean deletar(String id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;

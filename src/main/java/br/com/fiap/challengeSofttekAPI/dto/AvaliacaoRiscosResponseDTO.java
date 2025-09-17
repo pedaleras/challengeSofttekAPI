@@ -1,14 +1,13 @@
 package br.com.fiap.challengeSofttekAPI.dto;
 
-import br.com.fiap.challengeSofttekAPI.model.AvaliacaoRiscos;
-
-import java.time.LocalDateTime;
+import br.com.fiap.challengeSofttekAPI.model.AvaliacaoRiscos; // Importa a classe de modelo
+import java.time.LocalDateTime; // Certifique-se de que LocalDateTime está importado
 
 public record AvaliacaoRiscosResponseDTO(
-        Long id,
+        String id,
         Double mediaPercentual,
         String categoriaFinal,
-        LocalDateTime dataCriacao
+        LocalDateTime dataAvaliacao
 ) {
     public AvaliacaoRiscosResponseDTO(AvaliacaoRiscos avaliacaoRiscos) {
         this(

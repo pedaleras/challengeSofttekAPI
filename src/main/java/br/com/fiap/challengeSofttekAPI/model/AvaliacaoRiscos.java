@@ -1,12 +1,13 @@
 package br.com.fiap.challengeSofttekAPI.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id; // Importar do Spring Data
+import org.springframework.data.mongodb.core.mapping.Document; // Importar do Spring Data MongoDB
+import org.springframework.data.mongodb.core.mapping.Field; // Opcional: para customizar nome do campo no Mongo
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "avaliacao_riscos")
+@Document(collection = "avaliacoes_riscos") // Mapeia para a coleção "avaliacoes_riscos" no MongoDB
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,16 +16,15 @@ import java.time.LocalDateTime;
 public class AvaliacaoRiscos {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "data_avaliacao", nullable = false)
+    @Field("data_avaliacao")
     private LocalDateTime dataAvaliacao = LocalDateTime.now();
 
-    @Column(name = "media_percentual", nullable = false)
+    @Field("media_percentual")
     private Double mediaPercentual;
 
-    @Column(name = "categoria_final", nullable = false)
+    @Field("categoria_final")
     private String categoriaFinal;
 
     public AvaliacaoRiscos(Double mediaPercentual) {
@@ -37,6 +37,7 @@ public class AvaliacaoRiscos {
         this.categoriaFinal = calcularCategoriaFinal(mediaPercentual);
     }
 
+    // Lógica de negócio para calcular a categoria final
     private String calcularCategoriaFinal(Double mediaPercentual) {
         if (mediaPercentual <= 25) return "Neutro";
         if (mediaPercentual <= 50) return "Leve";

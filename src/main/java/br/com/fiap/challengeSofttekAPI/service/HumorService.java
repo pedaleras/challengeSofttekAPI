@@ -37,12 +37,12 @@ public class HumorService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<HumorResponseDTO> buscarPorId(Long id) {
+    public Optional<HumorResponseDTO> buscarPorId(String id) {
         return repository.findById(id).map(HumorResponseDTO::new);
     }
 
     @Transactional
-    public Optional<HumorResponseDTO> atualizar(Long id, HumorRequestDTO dto) {
+    public Optional<HumorResponseDTO> atualizar(String id, HumorRequestDTO dto) {
         return repository.findById(id).map(humor -> {
             humor.setNivelHumor(dto.nivel());
             humor.setDescricaoHumor(NivelHumor.fromNivel(dto.nivel()));
@@ -54,7 +54,7 @@ public class HumorService {
     }
 
     @Transactional
-    public boolean deletar(Long id) {
+    public boolean deletar(String id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;

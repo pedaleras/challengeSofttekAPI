@@ -5,7 +5,7 @@ import br.com.fiap.challengeSofttekAPI.model.Humor;
 import java.time.LocalDateTime;
 
 public record HumorResponseDTO(
-        Long id,
+        String id,
         Integer nivel,
         String descricao,
         LocalDateTime dataRegistro
