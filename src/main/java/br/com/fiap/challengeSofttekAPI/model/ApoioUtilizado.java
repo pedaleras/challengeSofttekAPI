@@ -1,13 +1,13 @@
 package br.com.fiap.challengeSofttekAPI.model;
 
-import org.springframework.data.annotation.Id; // Importar do Spring Data
-import org.springframework.data.mongodb.core.mapping.Document; // Importar do Spring Data MongoDB
-import org.springframework.data.mongodb.core.mapping.Field; // Opcional: para customizar nome do campo no Mongo
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "apoios_utilizados") // Mapeia para a coleção "apoios_utilizados" no MongoDB
+@Document(collection = "apoios_utilizados")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,19 +18,27 @@ public class ApoioUtilizado {
     @Id
     private String id;
 
-    // @Field é opcional, mas pode ser usado para dar um nome explícito no MongoDB
+    //VINCULAR O APOIO AO COLABORADOR ANÔNIMO
+    @Field("colaborador_id") // Sugestão de nome para o campo no MongoDB
+    private String colaboradorId;
 
     @Field("data_registro")
     private LocalDateTime dataRegistro;
 
-    @Field("tipo_apoio")
+    @Field("tipo_apoio") // Adicionei este campo pois no DTO de request tem "tipoApoio"
     private String tipoApoio;
 
     private String descricao;
 
-    public ApoioUtilizado(String tipoApoio, String descricao){
+    public ApoioUtilizado(String colaboradorId, String tipoApoio, String descricao){
+        this.colaboradorId = colaboradorId; // Atribui o ID do colaborador
         this.dataRegistro = LocalDateTime.now();
         this.tipoApoio = tipoApoio;
+        this.descricao = descricao;
+    }
+    public ApoioUtilizado(String colaboradorId, String descricao){
+        this.colaboradorId = colaboradorId; // Atribui o ID do colaborador
+        this.dataRegistro = LocalDateTime.now();
         this.descricao = descricao;
     }
 }

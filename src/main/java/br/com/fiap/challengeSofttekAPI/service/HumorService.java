@@ -6,60 +6,77 @@ import br.com.fiap.challengeSofttekAPI.model.Humor;
 import br.com.fiap.challengeSofttekAPI.model.NivelHumor;
 import br.com.fiap.challengeSofttekAPI.repository.HumorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus; // Import adicionado
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class HumorService {
 
-    @Autowired
     private final HumorRepository repository;
 
+    @Autowired // @Autowired no construtor é uma boa prática
     public HumorService(HumorRepository humorRepository) {
         this.repository = humorRepository;
     }
 
     @Transactional
-    public HumorResponseDTO salvar(HumorRequestDTO dto) {
-        Humor humor = new Humor(dto.nivel());
+    // SALVAR ATUALIZADO PARA INCLUIR colaboradorId
+    public HumorResponseDTO salvar(String colaboradorId, HumorRequestDTO dto) {
+        // Cria um novo Humor, passando o colaboradorId
+        Humor humor = new Humor(colaboradorId, dto.nivel()); // Usa o novo construtor do Model
+        // dataRegistro e descricaoHumor já são setados no construtor do model
 
         Humor salvo = repository.save(humor);
         return new HumorResponseDTO(salvo);
     }
 
-    public List<HumorResponseDTO> listar() {
-        return repository.findAll().stream()
+    // LISTAR HUMORES POR COLABORADOR (SUBSTITUI listar)
+    public List<HumorResponseDTO> listarPorColaborador(String colaboradorId) {
+        return repository.findByColaboradorId(colaboradorId) // Chama novo método no repositório
+                .stream()
                 .map(HumorResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public Optional<HumorResponseDTO> buscarPorId(String id) {
-        return repository.findById(id).map(HumorResponseDTO::new);
+    // BUSCAR POR ID E COLABORADOR (SUBSTITUI buscarPorId)
+    public HumorResponseDTO buscarPorIdEColaborador(String id, String colaboradorId) {
+        Humor humor = repository.findByIdAndColaboradorId(id, colaboradorId) // Chama novo método no repositório
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Registro de humor não encontrado ou não pertence ao colaborador")); // Lança exceção 404
+        return new HumorResponseDTO(humor);
     }
 
     @Transactional
-    public Optional<HumorResponseDTO> atualizar(String id, HumorRequestDTO dto) {
-        return repository.findById(id).map(humor -> {
-            humor.setNivelHumor(dto.nivel());
-            humor.setDescricaoHumor(NivelHumor.fromNivel(dto.nivel()));
-            humor.setDataRegistro(LocalDateTime.now());
+    // ATUALIZAR REVISADO PARA INCLUIR colaboradorId
+    public HumorResponseDTO atualizar(String id, String colaboradorId, HumorRequestDTO dto) {
+        // Busca o humor, garantindo que ele exista E pertença ao colaborador
+        Humor humor = repository.findByIdAndColaboradorId(id, colaboradorId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Registro de humor não encontrado ou não pertence ao colaborador"));
 
-            Humor atualizado = repository.save(humor);
-            return new HumorResponseDTO(atualizado);
-        });
+        humor.setNivelHumor(dto.nivel());
+        humor.setDescricaoHumor(NivelHumor.fromNivel(dto.nivel())); // Atualiza a descrição com base no novo nível
+        humor.setDataRegistro(LocalDateTime.now()); // Atualiza a data do registro
+
+        Humor atualizado = repository.save(humor);
+        return new HumorResponseDTO(atualizado);
     }
 
     @Transactional
-    public boolean deletar(String id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return true;
+    // DELETAR REVISADO PARA INCLUIR colaboradorId
+    public void deletar(String id, String colaboradorId) {
+        // Primeiro, verifica se o registro de humor existe e pertence ao colaborador
+        if (!repository.existsByIdAndColaboradorId(id, colaboradorId)) { // Chama novo método no repositório
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Registro de humor não encontrado ou não pertence ao colaborador");
         }
-        return false;
+        repository.deleteById(id);
     }
-}
 
+}
