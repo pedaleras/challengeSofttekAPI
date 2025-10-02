@@ -18,10 +18,6 @@ public class ApoioUtilizado {
     @Id
     private String id;
 
-    //VINCULAR O APOIO AO COLABORADOR ANÔNIMO
-    @Field("colaborador_id") // Sugestão de nome para o campo no MongoDB
-    private String colaboradorId;
-
     @Field("data_registro")
     private LocalDateTime dataRegistro;
 
@@ -30,15 +26,9 @@ public class ApoioUtilizado {
 
     private String descricao;
 
-    public ApoioUtilizado(String colaboradorId, String tipoApoio, String descricao){
-        this.colaboradorId = colaboradorId; // Atribui o ID do colaborador
+    public ApoioUtilizado(String tipoApoio, String descricao) {
         this.dataRegistro = LocalDateTime.now();
         this.tipoApoio = tipoApoio;
-        this.descricao = descricao;
-    }
-    public ApoioUtilizado(String colaboradorId, String descricao){
-        this.colaboradorId = colaboradorId; // Atribui o ID do colaborador
-        this.dataRegistro = LocalDateTime.now();
         this.descricao = descricao;
     }
 }

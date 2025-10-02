@@ -4,13 +4,11 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,65 +18,50 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
     @Autowired
     private JwtService jwtService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
 
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
-        String anonymousUserId = null;
+        String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            logger.warn("Requisição para URI: {} - Authorization header ausente ou malformado. Header recebido: {}");
-        } else {
-            jwt = authHeader.substring(7);
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
             try {
-                anonymousUserId = jwtService.extractAnonymousUserId(jwt);
-
-                if (anonymousUserId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    if (jwtService.validateToken(jwt)) {
-                        // *** ALTERAÇÃO AQUI: Use AnonymousUserDetails como principal ***
-                        AnonymousUserDetails userDetails = new AnonymousUserDetails(anonymousUserId);
-
-                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                                userDetails, // Agora passa um objeto UserDetails
-                                null,
-                                userDetails.getAuthorities() // As authorities vêm do UserDetails
-                        );
-
+                if (jwtService.validateToken(token)) {
+                    String anonymousUserId = jwtService.extractAnonymousUserId(token);
+                    if (anonymousUserId != null) {
+                        UsernamePasswordAuthenticationToken authToken =
+                                new UsernamePasswordAuthenticationToken(
+                                        new AnonymousUserDetails(anonymousUserId),
+                                        null,
+                                        new AnonymousUserDetails(anonymousUserId).getAuthorities()
+                                );
                         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authToken);
-                        logger.info("Requisição para URI: {} - Usuário autenticado no SecurityContextHolder: {}");
+
+                        logger.info("Usuário autenticado: {} - URI: {}", anonymousUserId, request.getRequestURI());
                     } else {
-                        logger.warn("Requisição para URI: {} - Token JWT inválido. ID extraído: {}");
+                        logger.warn("Token válido mas sem anonymousUserId - URI: {}", request.getRequestURI());
                     }
-                } else if (anonymousUserId == null) {
-                    logger.warn("Requisição para URI: {} - Não foi possível extrair anonymousUserId do token.");
                 } else {
-                    logger.info("Requisição para URI: {} - SecurityContextHolder já contém autenticação (ignorado).");
+                    logger.warn("Token inválido ou expirado - URI: {}", request.getRequestURI());
+                    SecurityContextHolder.clearContext();
                 }
             } catch (Exception e) {
-                logger.error("Requisição para URI: {} - Erro ao processar JWT. Detalhes: {}");
+                logger.error("Erro ao processar JWT na URI {}: {}", request.getRequestURI(), e.getMessage());
                 SecurityContextHolder.clearContext();
             }
-        }
-
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            logger.info("Requisição para URI: {} prosseguindo SEM autenticação NO SecurityContextHolder.");
         } else {
-            // Ajuste aqui para pegar o username corretamente do principal, que agora é UserDetails
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof UserDetails) {
-                logger.info("Requisição para URI: {} prosseguindo COM autenticação para usuário: {}"
-                );
-            } else {
-                logger.info("Requisição para URI: {} prosseguindo COM autenticação, mas principal não é UserDetails.");
-            }
+            logger.debug("Requisição sem token - URI: {}", request.getRequestURI());
         }
 
+        // Sempre prossegue, mesmo sem token
         filterChain.doFilter(request, response);
     }
 }

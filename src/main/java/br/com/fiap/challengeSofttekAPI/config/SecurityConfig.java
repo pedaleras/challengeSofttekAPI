@@ -3,10 +3,12 @@ package br.com.fiap.challengeSofttekAPI.config;
 import br.com.fiap.challengeSofttekAPI.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -24,15 +26,15 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/auth/anonymous").permitAll()
-                        // Todos os outros endpoints exigem que o usuário esteja autenticado (via token anônimo)
-                        // E tenha a role ROLE_ANONYMOUS
-                        .anyRequest().hasRole("ANONYMOUS")
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) // 401 quando não autenticado
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Define que a sessão será sem estado (essencial para JWT)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                // Adiciona o filtro JWT antes do filtro padrão de autenticação de usuário/senha
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

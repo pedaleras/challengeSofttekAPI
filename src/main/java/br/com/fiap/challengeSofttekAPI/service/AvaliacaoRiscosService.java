@@ -26,18 +26,11 @@ public class AvaliacaoRiscosService {
 
     @Transactional
     public AvaliacaoRiscosResponseDTO salvar(String colaboradorId, AvaliacaoRiscosRequestDTO dto) {
-        // Lógica para calcular a média percentual a partir dos níveis de estresse, ansiedade e depressão
-        double somaNiveis = dto.estresse() + dto.ansiedade() + dto.depressao();
-        // Assumindo que a escala máxima para cada um é 5, o total máximo é 15 (5+5+5).
-        // Convertemos para uma escala de 0 a 100.
-        double mediaPercentualCalculada = (somaNiveis / 15.0) * 100.0;
 
-        // Cria uma nova AvaliacaoRiscos
         AvaliacaoRiscos avaliacao = new AvaliacaoRiscos();
         avaliacao.setColaboradorId(colaboradorId);
         avaliacao.setDataAvaliacao(LocalDateTime.now());
-        // Define a média percentual, que, por sua vez, calcula a categoriaFinal dentro do modelo
-        avaliacao.setMediaPercentual(mediaPercentualCalculada);
+        avaliacao.setMediaPercentual(dto.mediaPercentual());
 
         AvaliacaoRiscos salvo = repository.save(avaliacao);
         return new AvaliacaoRiscosResponseDTO(salvo);
@@ -63,12 +56,9 @@ public class AvaliacaoRiscosService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Avaliação não encontrada ou não pertence ao colaborador"));
 
-        // Recalcula a média percentual com base nos novos dados
-        double somaNiveis = dto.estresse() + dto.ansiedade() + dto.depressao();
-        double mediaPercentualCalculada = (somaNiveis / 15.0) * 100.0;
 
-        avaliacao.setMediaPercentual(mediaPercentualCalculada); // Isso irá recalcular a categoriaFinal
-        // avaliacao.setDataAvaliacao(LocalDateTime.now()); // Pode-se optar por atualizar a data da avaliação aqui
+        avaliacao.setMediaPercentual(dto.mediaPercentual());
+        avaliacao.setDataAvaliacao(LocalDateTime.now());
 
         AvaliacaoRiscos atualizada = repository.save(avaliacao);
         return new AvaliacaoRiscosResponseDTO(atualizada);

@@ -9,13 +9,4 @@ import java.util.Optional;
 
 @Repository
 public interface ApoioUtilizadoRepository extends MongoRepository<ApoioUtilizado, String> {
-
-    // Busca todos os ApoiosUtilizados associados a um dado colaboradorId
-    List<ApoioUtilizado> findByColaboradorId(String colaboradorId);
-
-    // Busca um ApoioUtilizado pelo ID e verifica se ele pertence a um colaboradorId específico
-    Optional<ApoioUtilizado> findByIdAndColaboradorId(String id, String colaboradorId);
-
-    // Verifica se um ApoioUtilizado com um dado ID existe e pertence a um colaboradorId específico
-    boolean existsByIdAndColaboradorId(String id, String colaboradorId);
 }
