@@ -10,12 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static br.com.fiap.challengeSofttekAPI.util.SecurityUtils.getCurrentUserId;
 
 @Service
 public class HumorService {
@@ -27,15 +27,6 @@ public class HumorService {
         this.repository = repository;
     }
 
-    // Pega o ID do usuário logado via SecurityContext
-    private String getCurrentUserId() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autenticado");
-    }
-
     @Transactional
     public HumorResponseDTO salvar(HumorRequestDTO dto) {
         String colaboradorId = getCurrentUserId();
@@ -45,46 +36,29 @@ public class HumorService {
         return new HumorResponseDTO(salvo);
     }
 
-    public List<HumorResponseDTO> listarPorColaborador() {
-        String colaboradorId = getCurrentUserId();
-        List<HumorResponseDTO> lista = repository.findByColaboradorId(colaboradorId)
+    public List<HumorResponseDTO> listarTodos() {
+        List<HumorResponseDTO> lista = repository.findAll()
                 .stream()
                 .map(HumorResponseDTO::new)
                 .collect(Collectors.toList());
-        logger.info("Listagem de {} humores realizada para colaborador {}", lista.size(), colaboradorId);
+
+        String colaboradorId = getCurrentUserId();
+        logger.info("Listagem de {} humores realizada pelo colaborador {}", lista.size(), colaboradorId);
         return lista;
     }
 
-    public HumorResponseDTO buscarPorId(String id) {
-        String colaboradorId = getCurrentUserId();
-        Humor humor = repository.findByIdAndColaboradorId(id, colaboradorId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Registro de humor não encontrado ou não pertence ao colaborador"));
-        logger.info("Humor ID {} recuperado para colaborador {}", id, colaboradorId);
-        return new HumorResponseDTO(humor);
-    }
+    public List<HumorResponseDTO> buscarPorIdColaborador(String idColaborador) {
+        List<Humor> humores = repository.findAllByColaboradorId(idColaborador);
 
-    @Transactional
-    public HumorResponseDTO atualizar(String id, HumorRequestDTO dto) {
-        String colaboradorId = getCurrentUserId();
-        Humor humor = repository.findByIdAndColaboradorId(id, colaboradorId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Registro de humor não encontrado ou não pertence ao colaborador"));
-        humor.setNivelHumor(dto.nivel());
-        humor.setDataRegistro(LocalDateTime.now());
-        Humor atualizado = repository.save(humor);
-        logger.info("Humor ID {} atualizado pelo colaborador {}", id, colaboradorId);
-        return new HumorResponseDTO(atualizado);
-    }
-
-    @Transactional
-    public void deletar(String id) {
-        String colaboradorId = getCurrentUserId();
-        if (!repository.existsByIdAndColaboradorId(id, colaboradorId)) {
+        if (humores.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Registro de humor não encontrado ou não pertence ao colaborador");
+                    "Nenhum registro de humor encontrado para o colaborador");
         }
-        repository.deleteById(id);
-        logger.info("Humor ID {} deletado pelo colaborador {}", id, colaboradorId);
+
+        logger.info("Recuperados {} registros de humor para colaborador {}", humores.size(), idColaborador);
+
+        return humores.stream()
+                .map(HumorResponseDTO::new)
+                .collect(Collectors.toList());
     }
 }

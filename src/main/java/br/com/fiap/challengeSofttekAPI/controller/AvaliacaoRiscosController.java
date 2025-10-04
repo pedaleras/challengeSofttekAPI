@@ -4,66 +4,54 @@ import br.com.fiap.challengeSofttekAPI.dto.AvaliacaoRiscosRequestDTO;
 import br.com.fiap.challengeSofttekAPI.dto.AvaliacaoRiscosResponseDTO;
 import br.com.fiap.challengeSofttekAPI.service.AvaliacaoRiscosService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/avaliacoes-riscos")
 public class AvaliacaoRiscosController {
 
-    @Autowired
-    private AvaliacaoRiscosService service;
+    private final AvaliacaoRiscosService service;
 
-    @PostMapping
-    public ResponseEntity<AvaliacaoRiscosResponseDTO> criar(
-            @RequestBody @Valid AvaliacaoRiscosRequestDTO dto,
-            @AuthenticationPrincipal UserDetails currentUser) { // pega o usuário atual
-        String colaboradorId = currentUser.getUsername(); // O username é o anonymousUserId
-        return ResponseEntity.ok(service.salvar(colaboradorId, dto)); // Passa o colaboradorId para o serviço
+    public AvaliacaoRiscosController(AvaliacaoRiscosService service) {
+        this.service = service;
     }
 
-    // Método alterado de listarTodos para listarMinhasAvaliacoes
+    @PostMapping
+    public ResponseEntity<AvaliacaoRiscosResponseDTO> criar(@RequestBody @Valid AvaliacaoRiscosRequestDTO dto) {
+        log.info("POST /avaliacoes-riscos | payload={}", dto);
+        return ResponseEntity.ok(service.salvar(dto));
+    }
+
     @GetMapping
-    public ResponseEntity<List<AvaliacaoRiscosResponseDTO>> listarMinhasAvaliacoes(
-            @AuthenticationPrincipal UserDetails currentUser) { // pega o usuário atual
-        String colaboradorId = currentUser.getUsername(); // O username é o anonymousUserId
-        // Este método agora deve listar apenas as avaliações do colaborador autenticado
-        return ResponseEntity.ok(service.listarPorColaborador(colaboradorId));
+    public ResponseEntity<List<AvaliacaoRiscosResponseDTO>> listarMinhasAvaliacoes() {
+        log.info("GET /avaliacoes-riscos");
+        return ResponseEntity.ok(service.listarPorColaborador());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AvaliacaoRiscosResponseDTO> buscarPorId(
-            @PathVariable String id,
-            @AuthenticationPrincipal UserDetails currentUser) { // para verificar posse
-        String colaboradorId = currentUser.getUsername();
-        // O serviço agora lança uma exceção se não encontrar ou não pertencer ao colaborador
-        AvaliacaoRiscosResponseDTO dto = service.buscarPorIdEColaborador(id, colaboradorId);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<AvaliacaoRiscosResponseDTO> buscarPorId(@PathVariable String id) {
+        log.info("GET /avaliacoes-riscos/{}", id);
+        return ResponseEntity.ok(service.buscarPorIdEColaborador(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AvaliacaoRiscosResponseDTO> atualizar(
             @PathVariable String id,
-            @RequestBody @Valid AvaliacaoRiscosRequestDTO dto,
-            @AuthenticationPrincipal UserDetails currentUser) { // para verificar posse
-        String colaboradorId = currentUser.getUsername();
-        // O serviço agora lança uma exceção se não encontrar ou não pertencer ao colaborador
-        AvaliacaoRiscosResponseDTO atualizado = service.atualizar(id, colaboradorId, dto);
-        return ResponseEntity.ok(atualizado);
+            @RequestBody @Valid AvaliacaoRiscosRequestDTO dto) {
+
+        log.info("PUT /avaliacoes-riscos/{} | payload={}", id, dto);
+        return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(
-            @PathVariable String id,
-            @AuthenticationPrincipal UserDetails currentUser) { // verificar posse
-        String colaboradorId = currentUser.getUsername();
-        // O serviço agora lança uma exceção se não encontrar ou não pertencer ao colaborador
-        service.deletar(id, colaboradorId);
+    public ResponseEntity<Void> deletar(@PathVariable String id) {
+        log.info("DELETE /avaliacoes-riscos/{}", id);
+        service.deletar(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -28,23 +28,12 @@ public class HumorController {
 
     @GetMapping
     public ResponseEntity<List<HumorResponseDTO>> listar() {
-        return ResponseEntity.ok(humorService.listarPorColaborador());
+        return ResponseEntity.ok(humorService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HumorResponseDTO> buscar(@PathVariable String id) {
-        return ResponseEntity.ok(humorService.buscarPorId(id));
+    public ResponseEntity<List<HumorResponseDTO>> buscar(@PathVariable String id) {
+        return ResponseEntity.ok(humorService.buscarPorIdColaborador(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<HumorResponseDTO> atualizar(@PathVariable String id,
-                                                      @RequestBody @Valid HumorRequestDTO dto) {
-        return ResponseEntity.ok(humorService.atualizar(id, dto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable String id) {
-        humorService.deletar(id);
-        return ResponseEntity.noContent().build();
-    }
 }

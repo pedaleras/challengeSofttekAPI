@@ -10,12 +10,6 @@ import java.util.Optional;
 @Repository
 public interface HumorRepository extends MongoRepository<Humor, String> {
 
-    // Busca todos os registros de Humor associados a um dado colaboradorId
-    List<Humor> findByColaboradorId(String colaboradorId);
+    List<Humor> findAllByColaboradorId(String colaboradorId);
 
-    // Busca um registro de Humor pelo ID e verifica se ele pertence a um colaboradorId específico
-    Optional<Humor> findByIdAndColaboradorId(String id, String colaboradorId);
-
-    // Verifica se um registro de Humor com um dado ID existe e pertence a um colaboradorId específico
-    boolean existsByIdAndColaboradorId(String id, String colaboradorId);
 }

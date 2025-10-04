@@ -30,10 +30,13 @@ public class Humor {
     @Field("descricao_humor")
     private NivelHumor descricaoHumor; // Certifique-se de que NivelHumor é um enum ou classe acessível
 
-    public Humor(String colaboradorId, int nivel) {
-        this.colaboradorId = colaboradorId; // Atribui o ID do colaborador
-        this.nivelHumor = nivel;
-        this.descricaoHumor = NivelHumor.fromNivel(nivel); // Assumindo que este método existe no NivelHumor
-        this.dataRegistro = LocalDateTime.now(); // Data de registro é definida na criação
+    public Humor(String colaboradorId, Integer nivel) {
+        this.colaboradorId = colaboradorId;
+        this.nivelHumor = (nivel != null) ? nivel : 3; // default = NORMAL
+        this.descricaoHumor = (nivel != null)
+                ? NivelHumor.fromNivel(nivel)
+                : NivelHumor.NORMAL;
+        this.dataRegistro = LocalDateTime.now();
     }
+
 }

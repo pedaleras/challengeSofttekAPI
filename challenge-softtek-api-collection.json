@@ -1,172 +1,357 @@
-{
-  "_type": "export",
-  "__export_format": 4,
-  "__export_date": "2025-05-21T23:00:00.000Z",
-  "__export_source": "chatgpt-generated",
-  "resources": [
-    {
-      "_id": "req_1",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Cadastrar Humor",
-      "method": "POST",
-      "url": "http://localhost:8080/humores",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"nivel\": 3\n}"
-      }
-    },
-    {
-      "_id": "req_2",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Listar Humores",
-      "method": "GET",
-      "url": "http://localhost:8080/humores"
-    },
-    {
-      "_id": "req_3",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Buscar Humor por ID",
-      "method": "GET",
-      "url": "http://localhost:8080/humores/1"
-    },
-    {
-      "_id": "req_4",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Atualizar Humor",
-      "method": "PUT",
-      "url": "http://localhost:8080/humores/1",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"nivel\": 4\n}"
-      }
-    },
-    {
-      "_id": "req_5",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Deletar Humor",
-      "method": "DELETE",
-      "url": "http://localhost:8080/humores/1"
-    },
-    {
-      "_id": "req_6",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Cadastrar Avaliação de Riscos",
-      "method": "POST",
-      "url": "http://localhost:8080/avaliacoes-riscos",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"estresse\": 2,\n  \"ansiedade\": 4,\n  \"depressao\": 3\n}"
-      }
-    },
-    {
-      "_id": "req_7",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Listar Avaliações de Riscos",
-      "method": "GET",
-      "url": "http://localhost:8080/avaliacoes-riscos"
-    },
-    {
-      "_id": "req_8",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Buscar Avaliação de Riscos por ID",
-      "method": "GET",
-      "url": "http://localhost:8080/avaliacoes-riscos/1"
-    },
-    {
-      "_id": "req_9",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Atualizar Avaliação de Riscos",
-      "method": "PUT",
-      "url": "http://localhost:8080/avaliacoes-riscos/1",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"estresse\": 1,\n  \"ansiedade\": 2,\n  \"depressao\": 2\n}"
-      }
-    },
-    {
-      "_id": "req_10",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Deletar Avaliação de Riscos",
-      "method": "DELETE",
-      "url": "http://localhost:8080/avaliacoes-riscos/1"
-    },
-    {
-      "_id": "req_11",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Cadastrar Apoio Utilizado",
-      "method": "POST",
-      "url": "http://localhost:8080/apoios",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"descricao\": \"Conversei com um amigo\"\n}"
-      }
-    },
-    {
-      "_id": "req_12",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Listar Apoios Utilizados",
-      "method": "GET",
-      "url": "http://localhost:8080/apoios"
-    },
-    {
-      "_id": "req_13",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Buscar Apoio Utilizado por ID",
-      "method": "GET",
-      "url": "http://localhost:8080/apoios/1"
-    },
-    {
-      "_id": "req_14",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Atualizar Apoio Utilizado",
-      "method": "PUT",
-      "url": "http://localhost:8080/apoios/1",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"descricao\": \"Falei com a psicóloga\"\n}"
-      }
-    },
-    {
-      "_id": "req_15",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "Deletar Apoio Utilizado",
-      "method": "DELETE",
-      "url": "http://localhost:8080/apoios/1"
-    },
-    {
-      "_id": "req_auth_token",
-      "_type": "request",
-      "parentId": "__WORKSPACE_ID__",
-      "name": "[AUTH] Get Anonymous Token",
-      "method": "POST",
-      "url": "http://localhost:8080/api/auth/anonymous",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{}"
-      }
-    },
-    {"headers": [
-      {
-        "name": "Content-Type",
-        "value": "application/json"
-      }
-    ],
-    "authentication": {}
-    }
-  ]
-}
+type: collection.insomnia.rest/5.0
+name: CRUD v2
+meta:
+  id: wrk_60d66b1d0cf24c508eb1af44ddd6cc60
+  created: 1759198326697
+  modified: 1759198335846
+collection:
+  - name: Auth
+    meta:
+      id: fld_af0f64c7a03c4c7c9916dfe2df5efc08
+      created: 1759198344700
+      modified: 1759198349211
+      sortKey: -1759198344900
+    children:
+      - url: http://localhost:8080/api/auth/anonymous
+        name: "[AUTH] Get Anonymous Token"
+        meta:
+          id: req_ba0d392afbc14ff28814edd804bbe2f2
+          created: 1759198326715
+          modified: 1759283338457
+          isPrivate: false
+          sortKey: -1759198351186
+        method: POST
+        authentication:
+          type: none
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Apoio
+    meta:
+      id: fld_1a08d42f93f244b6a9305365ea25e732
+      created: 1759198358830
+      modified: 1759198381183
+      sortKey: -1759198326712.5
+    children:
+      - url: http://localhost:8080/apoios
+        name: Cadastrar Apoio Utilizado
+        meta:
+          id: req_886dcc8f601a4059acfaa36301a69d8f
+          created: 1759198326710
+          modified: 1759369090242
+          isPrivate: false
+          sortKey: -1759198370701
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"tipo": "link",
+            	"descricao": "Conversei com um amigo"
+            }
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/apoios
+        name: Listar Apoios Utilizados
+        meta:
+          id: req_c5f5e356e2be42c48d6a89a0c09a56a7
+          created: 1759198326711
+          modified: 1759198403263
+          isPrivate: false
+          sortKey: -1759198370651
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/apoios/1
+        name: Buscar Apoio Utilizado por ID
+        meta:
+          id: req_cac867db95194613aa241b6e3fae2f7e
+          created: 1759198326712
+          modified: 1759198405134
+          isPrivate: false
+          sortKey: -1759198370626
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/apoios/1
+        name: Atualizar Apoio Utilizado
+        meta:
+          id: req_5fab3fbd951b4fcaa7d18c163000c9bb
+          created: 1759198326713
+          modified: 1759198386904
+          isPrivate: false
+          sortKey: -1759198370601
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "descricao": "Falei com a psicóloga"
+            }
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/apoios/1
+        name: Deletar Apoio Utilizado
+        meta:
+          id: req_e4147fada02f4ca4b8c8e5c6a6c26560
+          created: 1759198326714
+          modified: 1759198370557
+          isPrivate: false
+          sortKey: -1759198370501
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Avaliação de Riscos
+    meta:
+      id: fld_6a31995c4a864976b4127fe5d3aca2a5
+      created: 1759198420931
+      modified: 1759198431181
+      sortKey: -1759198326709
+    children:
+      - url: http://localhost:8080/avaliacoes-riscos
+        name: Cadastrar Avaliação de Riscos
+        meta:
+          id: req_300662dcda384cf99adf6bf76e608fe2
+          created: 1759198326704
+          modified: 1759373666223
+          isPrivate: false
+          sortKey: -1759198434923
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "mediaPercentual": 75
+            }
+        headers:
+          - id: pair_7e976ce4af774b35b47eaaa8cb9d87fb
+            name: Content-Type
+            value: application/json
+            disabled: false
+          - id: pair_c82e3a72744342e5a747f91045a5fc5a
+            name: Authorization
+            value: Bearer
+              eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BTk9OWU1PVVMiLCJzdWIiOiJjZjQyMGRiZC03Mzk0LTQxMjYtOGNkYy1hNzJkNWJmODk5NTkiLCJpYXQiOjE3NTkzNzM2NTIsImV4cCI6MTc1OTM3NzI1Mn0.m3_92SegRlGPjVksBn-rFDEfdcUVcCKDXvLUg5NoLJo
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/avaliacoes-riscos
+        name: Listar Avaliações de Riscos
+        meta:
+          id: req_3ff65a0595b04c53a3da39e1c3514fa9
+          created: 1759198326705
+          modified: 1759439227272
+          isPrivate: false
+          sortKey: -1759198434873
+        method: GET
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer
+              eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BTk9OWU1PVVMiLCJzdWIiOiI4NWJkMWMyOS0wNDBmLTQ5OGMtYTYwNy0wM2RiYzU2N2EzZTUiLCJpYXQiOjE3NTk0MzkxNjksImV4cCI6MTc1OTQ0Mjc2OX0.b7Fi-Q9xulZwWA_5o8DKsd9hNySyHJ6uR9CZpL8ABCo
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/avaliacoes-riscos/1
+        name: Buscar Avaliação de Riscos por ID
+        meta:
+          id: req_b697c4c9402f4f06b021dea7f92d728e
+          created: 1759198326706
+          modified: 1759198442290
+          isPrivate: false
+          sortKey: -1759198434848
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/avaliacoes-riscos/1
+        name: Atualizar Avaliação de Riscos
+        meta:
+          id: req_515b2cbbd1de4ca9842ef59447c0e529
+          created: 1759198326708
+          modified: 1759198443595
+          isPrivate: false
+          sortKey: -1759198434835.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "estresse": 1,
+              "ansiedade": 2,
+              "depressao": 2
+            }
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/avaliacoes-riscos/1
+        name: Deletar Avaliação de Riscos
+        meta:
+          id: req_d6d87751246843229ba386cce5b4fdb7
+          created: 1759198326710
+          modified: 1759198434874
+          isPrivate: false
+          sortKey: -1759198434823
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Humor
+    meta:
+      id: fld_1484c4611b654022af3f8a48597b2105
+      created: 1759198453952
+      modified: 1759198457756
+      sortKey: -1759198326702.5
+    children:
+      - url: http://localhost:8080/humores
+        name: Cadastrar Humor
+        meta:
+          id: req_4ec23eccc5da4db5b72d9a6f42af6536
+          created: 1759198326700
+          modified: 1759444658231
+          isPrivate: false
+          sortKey: -1759198461353
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nivel": 3
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_a71ce5acac9f4e73800718b84893d9ca
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_ba0d392afbc14ff28814edd804bbe2f2',
+              'b64::JC50b2tlbg==::46b', 'when-expired', 300 %}
+            id: pair_3aca5d249f6b48fbb2bc9cb9f0be43f0
+            disabled: false
+          - id: pair_1e90c5e5e97e4e4db2335db91ba3e759
+            name: Authorization
+            value: Bearer
+              eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BTk9OWU1PVVMiLCJzdWIiOiJjYmIwYjUyNi1iM2QxLTQzMDgtODljMi0xNjIyZmE2YTczZGUiLCJpYXQiOjE3NTkyODcxODEsImV4cCI6MTc1OTI5MDc4MX0.UhjtoBC370RekxNzGn5adIJSkIdaqXiiLMnSLWHqbTs
+            disabled: true
+        authentication:
+          type: none
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/humores
+        name: Listar Humores
+        meta:
+          id: req_bf107134315e426da8c3118da8547bbb
+          created: 1759198326701
+          modified: 1759444670470
+          isPrivate: false
+          sortKey: -1759198461303
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_ba0d392afbc14ff28814edd804bbe2f2',
+              'b64::JC50b2tlbg==::46b', 'when-expired', 300 %}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/humores/1
+        name: Buscar Humores por ID colaborador
+        meta:
+          id: req_fc50b6137529436b8169c72e1887b8f8
+          created: 1759198326702
+          modified: 1759530243081
+          isPrivate: false
+          sortKey: -1759198461253
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_c19f43897182e0d0d1adb5653efff42c57554617
+    created: 1759198336839
+    modified: 1759198336839
+environments:
+  name: Base Environment
+  meta:
+    id: env_c19f43897182e0d0d1adb5653efff42c57554617
+    created: 1759198336740
+    modified: 1759198336740
+    isPrivate: false
